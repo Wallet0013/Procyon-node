@@ -29,7 +29,7 @@ function startTraceroute(body) {
 		const traceroute_result = yield funcTraceroute(body.destnation,body.hop,body.timeout);
 
 		const data = {
-			"source" : os.networkInterfaces().eth1,
+			"source" : os.networkInterfaces().eth0,
 			"destnation" : body.destnation,
 			"timestamp" : moment().format(),
 			"traceroute" : traceroute_result

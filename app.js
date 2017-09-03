@@ -87,7 +87,7 @@ server.listen(50001, function() {
 
 axios.post('http://' + process.argv[3] + '/ready_node',{
 		firstName: 'Fred',
-		node_ip : os.networkInterfaces().eth1
+		node_ip : os.networkInterfaces().eth0
 	}).then(function (response) {
 		console.log("Procyon node ready for start.");
 		// console.log(response);

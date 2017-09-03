@@ -30,7 +30,7 @@ function startPing(db,body) {
 		const ping_result = yield funcPing(body.destnation,body.timeout,body.packetsize);
 
 		const value =  {
-			"source" : os.networkInterfaces().eth1,
+			"source" : os.networkInterfaces().eth0,
 			"destnation" : ping_result.host,
 			"destnation_num" : ping_result.numeric_host,
 			"time" : ping_result.time,
