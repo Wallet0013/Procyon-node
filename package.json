@@ -1,0 +1,20 @@
+{
+  "author": "yojiro kondo",
+  "name": "procyon-node",
+  "description": "ping,traceroute rest api for procyon",
+  "version": "1.0.0",
+  "repository": {},
+  "engines": {},
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.16.2",
+    "co": "^4.6.0",
+    "moment": "^2.18.1",
+    "mongodb": "^2.2.31",
+    "nodemon": "^1.11.0",
+    "ping": "^0.2.2",
+    "restify": "^5.2.0",
+    "restify-plugins": "^1.6.0",
+    "traceroute": "^1.0.0"
+  }
+}
