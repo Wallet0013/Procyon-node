@@ -1,4 +1,4 @@
-const Traceroute 	= require('traceroute');
+const Traceroute 	= require('procyon-traceroute');
 const co 			= require('co');
 const moment 		= require('moment');
 const os 			= require('os');
