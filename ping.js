@@ -1,7 +1,7 @@
 const ping 		= require('ping');
 const co 		= require('co');
 const moment 	= require('moment');
-var os 			= require('os');
+const os 			= require('os');
 
 const MongoClient = require("mongodb").MongoClient;
 const mongo_host = process.argv[2];
@@ -30,7 +30,7 @@ function startPing(db,body) {
 		const ping_result = yield funcPing(body.destnation,body.timeout,body.packetsize);
 
 		const value =  {
-			"source" : os.networkInterfaces().eth0,
+			"source" : os.networkInterfaces().eth0[0].address,
 			"destnation" : ping_result.host,
 			"destnation_num" : ping_result.numeric_host,
 			"time" : ping_result.time,

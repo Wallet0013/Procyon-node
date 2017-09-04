@@ -15,6 +15,6 @@
     "ping": "^0.2.2",
     "restify": "^5.2.0",
     "restify-plugins": "^1.6.0",
-    "traceroute": "^1.0.0"
+    "procyon-traceroute" : "git+https://github.com/Wallet0013/Procyon-traceroute.git#master"
   }
 }
