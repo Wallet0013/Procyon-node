@@ -9,12 +9,34 @@ const moment 		= require('moment');
 const axios 		= require('axios');
 const os 			= require('os');
 
-const MongoClient 	= require("mongodb").MongoClient;
-const url 			= "mongodb://localhost:27017/procyon";
+const MongoClient = require("mongodb").MongoClient;
+const mongo_host = process.argv[2];
+const url = "mongodb://" + mongo_host + ":27017/procyon";
 
 const child_process = require("child_process");
 let ping_node = child_process.fork("./ping",[process.argv[2]]);
 let traceroute_node = child_process.fork("./traceroute",[process.argv[2]]);
+
+function insertAppInfo() {
+	co(function* (){
+	    db = yield MongoClient.connect(url);
+		const value =  {
+			"hostname": os.hostname(),
+			"mgmt_ip" : os.networkInterfaces().eth0[0].address,
+			"dedi_ip" : os.networkInterfaces().eth1[0].address,
+			"timestamp" : moment().format(),
+			"unecessary" : false
+		}
+
+		// insert appinfo to mongodb
+		yield db.collection("appinfo").insertOne(value);
+		yield db.close();
+
+	}).catch(function(err){
+		process.on('unhandledRejection', console.log(err));
+	});
+
+}
 
 
 function startPing(req, res, next) {
@@ -31,7 +53,10 @@ function startPing(req, res, next) {
 	    console.log(result);
 	});
 
-	res.send({status:"ok"});
+	res.send({
+		status:"ok",
+		message : "complete send to start ping"
+	});
 }
 
 function stopPing(req, res, next) {
@@ -85,9 +110,12 @@ server.listen(50001, function() {
 	console.log('%s listening at %s', server.name, server.url);
 });
 
+// insert boot info
+insertAppInfo();
+
 axios.post('http://' + process.argv[3] + '/ready_node',{
-		firstName: 'Fred',
-		node_ip : os.networkInterfaces().eth0
+		status: 'ready',
+		node_ip : os.networkInterfaces().eth1[0].address
 	}).then(function (response) {
 		console.log("Procyon node ready for start.");
 		// console.log(response);
