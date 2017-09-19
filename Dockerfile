@@ -9,8 +9,7 @@ RUN	apt-get -y install traceroute
 
 WORKDIR /home
 
-ADD dummy2 /data/
-ADD dummy2 /data/
+ADD dummy3 /data/
 RUN	git clone https://github.com/Wallet0013/Procyon-node.git
 
 WORKDIR /home/Procyon-node

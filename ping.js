@@ -42,7 +42,7 @@ function startPing(db,body) {
 			"time" : ping_result.time,
 			"alive" : ping_result.alive,
 			"packetsize" : body.packetsize,
-			"timestamp" : getNow(),
+			"timestamp" : yield getNow(),
 			"output" : ping_result.output
 		}
 
