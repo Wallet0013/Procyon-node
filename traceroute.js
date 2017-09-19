@@ -21,6 +21,12 @@ function funcTraceroute(dest,hop,timeout){
 	});
 }
 
+function getNow(){
+	return new Promise(function (resolve,reject){
+		resolve(new Date().getTime());
+	});
+}
+
 function startTraceroute(body) {
 	co(function* (){
 		const db = yield MongoClient.connect(url);
@@ -31,7 +37,7 @@ function startTraceroute(body) {
 		const data = {
 			"source" : os.networkInterfaces().eth1[0].address,
 			"destnation" : body.destnation,
-			"timestamp" : moment().format(),
+			"timestamp" : getNow(),
 			"traceroute" : traceroute_result
 		};
 

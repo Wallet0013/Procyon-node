@@ -24,6 +24,12 @@ function funcPing(dest,timeout,packetsize){
 	});
 }
 
+function getNow(){
+	return new Promise(function (resolve,reject){
+		resolve(new Date().getTime());
+	});
+}
+
 function startPing(db,body) {
 	co(function* (){
 		// run ping
@@ -36,7 +42,7 @@ function startPing(db,body) {
 			"time" : ping_result.time,
 			"alive" : ping_result.alive,
 			"packetsize" : body.packetsize,
-			"timestamp" : moment().format(),
+			"timestamp" : getNow(),
 			"output" : ping_result.output
 		}
 
