@@ -2,8 +2,9 @@ FROM node:8.1.4-slim
 MAINTAINER yojiro kondo
 
 RUN apt-get update && \
-	apt-get -y install git
-RUN	apt-get -y install traceroute
+	apt-get -y install git python make traceroute build-essential \
+	libssl-dev zlib1g-dev libbz2-dev wget curl llvm \
+	libncurses5-dev libncursesw5-dev libpng-dev
 
 WORKDIR /home
 
