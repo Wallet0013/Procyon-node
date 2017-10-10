@@ -21,8 +21,8 @@ function insertAppInfo() {
 	    db = yield MongoClient.connect(url);
 		const value =  {
 			"hostname": os.hostname(),
-			"mgmt_ip" : "os.networkInterfaces().eth0[0].address",
-			"dedi_ip" : "os.networkInterfaces().eth1[0].address",
+			"mgmt_ip" : os.networkInterfaces().eth0[0].address,
+			"dedi_ip" : os.networkInterfaces().eth1[0].address,
 			"timestamp" : moment().format(),
 			"unecessary" : false
 		}
@@ -115,7 +115,7 @@ insertAppInfo();
 
 axios.post('http://' + process.argv[3] + '/ready_node',{
 		status: 'ready',
-		node_ip : "os.networkInterfaces().eth1[0].address"
+		node_ip : os.networkInterfaces().eth1[0].address
 	}).then(function (response) {
 		console.log("Procyon node ready for start.");
 		// console.log(response);

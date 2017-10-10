@@ -26,7 +26,7 @@ function funcPing(dest,timeout,packetsize,ttl){
 			const ms = rcvd - sent;
 			let alive;
 			const value = {
-				// "source" : os.networkInterfaces().eth1[0].address,
+				source : os.networkInterfaces().eth1[0].address,
 				target:target,
 		    	timestamp:microtime.nowStruct(sent),
 		    	microsec:ms,
@@ -50,7 +50,7 @@ function startPing(db,body) {
 		const ping_result = yield funcPing(body.destnation,body.timeout,body.packetsize,body.ttl);
 
 		const value =  {
-			"source" : "os.networkInterfaces().eth1[0].address",
+			"source" : os.networkInterfaces().eth1[0].address,
 			"destnation" : ping_result.target,
 			"microsec" : ping_result.microsec,
 			"alive" : ping_result.alive,
