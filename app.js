@@ -3,7 +3,6 @@ const restifyBodyParser = require('restify-plugins').bodyParser;
 const server 		= restify.createServer();
 server.use(restifyBodyParser());
 
-const ping 			= require('ping');
 const co 			= require("co");
 const moment 		= require('moment');
 const axios 		= require('axios');
@@ -22,8 +21,8 @@ function insertAppInfo() {
 	    db = yield MongoClient.connect(url);
 		const value =  {
 			"hostname": os.hostname(),
-			"mgmt_ip" : os.networkInterfaces().eth0[0].address,
-			"dedi_ip" : os.networkInterfaces().eth1[0].address,
+			"mgmt_ip" : "os.networkInterfaces().eth0[0].address",
+			"dedi_ip" : "os.networkInterfaces().eth1[0].address",
 			"timestamp" : moment().format(),
 			"unecessary" : false
 		}
@@ -46,6 +45,7 @@ function startPing(req, res, next) {
 		interval : req.body.interval,
 		timeout : req.body.timeout,
 		packetsize : req.body.packetsize,
+		ttl : req.body.ttl,
 		sighup : false
 	});
 
@@ -115,7 +115,7 @@ insertAppInfo();
 
 axios.post('http://' + process.argv[3] + '/ready_node',{
 		status: 'ready',
-		node_ip : os.networkInterfaces().eth1[0].address
+		node_ip : "os.networkInterfaces().eth1[0].address"
 	}).then(function (response) {
 		console.log("Procyon node ready for start.");
 		// console.log(response);

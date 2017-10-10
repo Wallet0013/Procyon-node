@@ -9,12 +9,13 @@
   "dependencies": {
     "axios": "^0.16.2",
     "co": "^4.6.0",
+    "microtime": "^2.1.6",
     "moment": "^2.18.1",
     "mongodb": "^2.2.31",
     "nodemon": "^1.11.0",
-    "ping": "^0.2.2",
+    "procyon-traceroute": "git+https://github.com/Wallet0013/Procyon-traceroute.git#master",
+    "raw-socket": "^1.5.1",
     "restify": "^5.2.0",
-    "restify-plugins": "^1.6.0",
-    "procyon-traceroute" : "git+https://github.com/Wallet0013/Procyon-traceroute.git#master"
+    "restify-plugins": "^1.6.0"
   }
 }
