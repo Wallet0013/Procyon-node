@@ -16,13 +16,20 @@ const child_process = require("child_process");
 let ping_node = child_process.fork("./ping",[process.argv[2]]);
 let traceroute_node = child_process.fork("./traceroute",[process.argv[2]]);
 
+
+const manageInt = os.networkInterfaces().eth0[0].address;
+const sourceInt = os.networkInterfaces().eth1[0].address;
+
+// const manageInt = "tes";
+// const sourceInt = "tes";
+
 function insertAppInfo() {
 	co(function* (){
 	    db = yield MongoClient.connect(url);
 		const value =  {
 			"hostname": os.hostname(),
-			"mgmt_ip" : os.networkInterfaces().eth0[0].address,
-			"dedi_ip" : os.networkInterfaces().eth1[0].address,
+			"mgmt_ip" : manageInt,
+			"dedi_ip" : sourceInt,
 			"timestamp" : moment().format(),
 			"unecessary" : false
 		}
@@ -115,7 +122,7 @@ insertAppInfo();
 
 axios.post('http://' + process.argv[3] + '/ready_node',{
 		status: 'ready',
-		node_ip : os.networkInterfaces().eth1[0].address
+		node_ip : sourceInt
 	}).then(function (response) {
 		console.log("Procyon node ready for start.");
 		// console.log(response);

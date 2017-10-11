@@ -1,7 +1,7 @@
 const co 		= require('co');
 const moment 	= require('moment');
 const os 		= require('os');
-const net_ping 	= require('./net-ping');
+const net_ping 	= require('./lib/net-ping');
 const microtime = require('microtime')
 
 const MongoClient = require("mongodb").MongoClient;
@@ -9,6 +9,8 @@ const mongo_host = process.argv[2];
 const url = "mongodb://" + mongo_host + ":27017/procyon";
 
 let db;
+const souceInt = os.networkInterfaces().eth1[0].address;
+// const sourceInt = "tes";
 
 function funcPing(dest,timeout,packetsize,ttl){
 	return new Promise(function (resolve,reject){
@@ -26,7 +28,7 @@ function funcPing(dest,timeout,packetsize,ttl){
 			const ms = rcvd - sent;
 			let alive;
 			const value = {
-				source : os.networkInterfaces().eth1[0].address,
+				source : souceInt,
 				target:target,
 		    	timestamp:microtime.nowStruct(sent),
 		    	microsec:ms,
@@ -50,7 +52,7 @@ function startPing(db,body) {
 		const ping_result = yield funcPing(body.destnation,body.timeout,body.packetsize,body.ttl);
 
 		const value =  {
-			"source" : os.networkInterfaces().eth1[0].address,
+			"source" : souceInt,
 			"destnation" : ping_result.target,
 			"microsec" : ping_result.microsec,
 			"alive" : ping_result.alive,

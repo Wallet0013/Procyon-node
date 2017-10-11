@@ -13,7 +13,6 @@
     "moment": "^2.18.1",
     "mongodb": "^2.2.31",
     "nodemon": "^1.11.0",
-    "procyon-traceroute": "git+https://github.com/Wallet0013/Procyon-traceroute.git#master",
     "raw-socket": "^1.5.1",
     "restify": "^5.2.0",
     "restify-plugins": "^1.6.0"

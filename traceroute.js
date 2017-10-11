@@ -1,4 +1,4 @@
-const Traceroute 	= require('procyon-traceroute');
+const Traceroute 	= require('./lib/traceroute');
 const co 			= require('co');
 const moment 		= require('moment');
 const os 			= require('os');
@@ -6,6 +6,9 @@ const os 			= require('os');
 const MongoClient = require("mongodb").MongoClient;
 const mongo_host = process.argv[2];
 const url = "mongodb://" + mongo_host + ":27017/procyon";
+
+const sourceInt = os.networkInterfaces().eth1[0].address;
+// const sourceInt = "tes";
 
 function funcTraceroute(dest,hop,timeout){
 	return new Promise(function (resolve,reject){
@@ -35,7 +38,7 @@ function startTraceroute(body) {
 		const traceroute_result = yield funcTraceroute(body.destnation,body.hop,body.timeout);
 
 		const data = {
-			"source" : os.networkInterfaces().eth1[0].address,
+			"source" : sourceInt,
 			"destnation" : body.destnation,
 			"timestamp" : getNow(),
 			"traceroute" : traceroute_result
