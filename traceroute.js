@@ -40,7 +40,7 @@ function startTraceroute(body) {
 		const data = {
 			"source" : sourceInt,
 			"destnation" : body.destnation,
-			"timestamp" : getNow(),
+			"timestamp" : yield getNow(),
 			"traceroute" : traceroute_result
 		};
 
