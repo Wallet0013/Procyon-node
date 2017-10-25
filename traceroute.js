@@ -2,9 +2,11 @@ const Traceroute 	= require('./lib/traceroute');
 const co 			= require('co');
 const moment 		= require('moment');
 const os 			= require('os');
+const microtime 	= require('microtime')
+const MongoClient 	= require("mongodb").MongoClient;
 
-const MongoClient = require("mongodb").MongoClient;
-const mongo_host = process.argv[2];
+
+const mongo_host 	= process.argv[2];
 const url = "mongodb://" + mongo_host + ":27017/procyon";
 
 const sourceInt = os.networkInterfaces().eth1[0].address;
@@ -40,7 +42,7 @@ function startTraceroute(body) {
 		const data = {
 			"source" : sourceInt,
 			"destnation" : body.destnation,
-			"timestamp" : yield getNow(),
+			"timestamp" : microtime.nowStruct(),
 			"traceroute" : traceroute_result
 		};
 
