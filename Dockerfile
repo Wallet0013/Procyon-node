@@ -8,7 +8,7 @@ RUN apt-get update && \
 
 WORKDIR /home
 
-ADD dummy11 /data/
+ADD dummy13 /data/
 RUN	git clone https://github.com/Wallet0013/Procyon-node.git
 
 WORKDIR /home/Procyon-node

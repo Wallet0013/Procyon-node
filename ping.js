@@ -8,8 +8,8 @@ const MongoClient = require("mongodb").MongoClient;
 const mongo_host = process.argv[2];
 const url = "mongodb://" + mongo_host + ":27017/procyon";
 
-// const sourceInt = os.networkInterfaces().eth1[0].address;
-const sourceInt = "tes";
+const sourceInt = os.networkInterfaces().eth1[0].address;
+// const sourceInt = "tes";
 
 
 function insertdb(value){
@@ -43,7 +43,7 @@ function startPing(body) {
 				let alive;
 				const value = {
 					source : sourceInt,
-					target:target,
+					destnation:target,
 			    	timestamp:microtime.nowStruct(sent),
 			    	microsec:ms,
 			    	alive : error ? false : true,

@@ -17,11 +17,11 @@ let ping_node = child_process.fork("./ping",[process.argv[2]]);
 let traceroute_node = child_process.fork("./traceroute",[process.argv[2]]);
 
 
-// const manageInt = os.networkInterfaces().eth0[0].address;
-// const sourceInt = os.networkInterfaces().eth1[0].address;
+const manageInt = os.networkInterfaces().eth0[0].address;
+const sourceInt = os.networkInterfaces().eth1[0].address;
 
-const manageInt = "tes";
-const sourceInt = "tes";
+// const manageInt = "tes";
+// const sourceInt = "tes";
 
 function insertAppInfo() {
 	co(function* (){
