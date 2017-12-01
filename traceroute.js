@@ -37,19 +37,24 @@ function startTraceroute(body) {
 		const db = yield MongoClient.connect(url);
 
 		// run traceroute
-		const traceroute_result = yield funcTraceroute(body.destnation,body.hop,body.timeout);
+		let destsArray = body.destnation.split(',');
+		for(let i = 0; i <= destsArray.length; i++){
+			const traceroute_result = yield funcTraceroute(destsArray[i],body.hop,body.timeout);
 
-		const data = {
-			"source" : sourceInt,
-			"destnation" : body.destnation,
-			"timestamp" : microtime.nowStruct(),
-			"traceroute" : traceroute_result
-		};
+			const data = {
+				"source" : sourceInt,
+				"destnation" : destsArray[i],
+				"timestamp" : microtime.nowStruct(),
+				"traceroute" : traceroute_result
+			};
 
-		// insert ping result to mongodb
-		yield db.collection("traceroute").insertOne(data);
+			// insert ping result to mongodb
+			yield db.collection("traceroute").insertOne(data);
+			console.log("data",data);
+		}
 		yield db.close();
-		process.send(data);
+
+		process.send("ok!");
 		process.exit();
 
 	}).catch(function(err){

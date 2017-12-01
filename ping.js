@@ -8,64 +8,57 @@ const MongoClient = require("mongodb").MongoClient;
 const mongo_host = process.argv[2];
 const url = "mongodb://" + mongo_host + ":27017/procyon";
 
-let db;
-const souceInt = os.networkInterfaces().eth1[0].address;
+const sourceInt = os.networkInterfaces().eth1[0].address;
 // const sourceInt = "tes";
 
-function funcPing(dest,timeout,packetsize,ttl){
+
+function insertdb(value){
 	return new Promise(function (resolve,reject){
-		const options = {
-		    // networkProtocol: ping.NetworkProtocol.IPv4,
-		    packetSize: parseInt(packetsize),
-		    retries: 0,
-		    timeout: parseInt(timeout),
-		    ttl: parseInt(ttl)
-		};
-		// console.log(options);
-		const session = net_ping.createSession (options);
-
-		session.pingHost (dest, function (error, target,sent, rcvd) {
-			const ms = rcvd - sent;
-			let alive;
-			const value = {
-				source : souceInt,
-				target:target,
-		    	timestamp:microtime.nowStruct(sent),
-		    	microsec:ms,
-		    	alive : error ? false : true,
-		    	error: error ? error.toString() : null
-			};
-		    if (error)
-		        console.log (target + ": " + error.toString ());
-		    else
-		        // console.log (target + ": Alive");
-		    	console.log(value);
-		    	resolve(value);
+		co(function* (){
+			const db = yield MongoClient.connect(url);
+			yield db.collection("ping").insertOne(value);
+			yield db.close();
+		}).catch(function(err){
+			process.on('unhandledRejection', console.log(err));
 		});
-
 	});
 }
 
-function startPing(db,body) {
+function startPing(body) {
 	co(function* (){
 		// run ping
-		const ping_result = yield funcPing(body.destnation,body.timeout,body.packetsize,body.ttl);
+		const options = {
+		    packetSize: parseInt(body.packetsize),
+		    retries: 0,
+		    timeout: parseInt(body.timeout),
+		    ttl: parseInt(body.ttl)
+		};
+		const session = net_ping.createSession (options);
+		let destsArray = body.destnation.split(',');
 
-		const value =  {
-			"source" : souceInt,
-			"destnation" : ping_result.target,
-			"microsec" : ping_result.microsec,
-			"alive" : ping_result.alive,
-			"packetsize" : body.packetsize,
-			"timestamp" : ping_result.timestamp,
-			"error" : ping_result.error
+		let resultArray = [];
+		for (var i = 0; i < destsArray.length; i++) {
+			session.pingHost (destsArray[i], function (error, target,sent, rcvd) {
+				const ms = rcvd - sent;
+				let alive;
+				const value = {
+					source : sourceInt,
+					target:target,
+			    	timestamp:microtime.nowStruct(sent),
+			    	microsec:ms,
+			    	alive : error ? false : true,
+			    	error: error ? error.toString() : null
+				};
+			    if (error){
+			        // console.log (target + ": " + error.toString ());
+			    }else{
+			    	// console.log(value);
+			    	insertdb(value);
+			    }
+			});
 		}
 
-		// insert ping result to mongodb
-		yield db.collection("ping").insertOne(value);
-
-		process.send(value);
-		// process.send("value");
+		process.send("ok!");
 
 	}).catch(function(err){
 		process.on('unhandledRejection', console.log(err));
@@ -76,14 +69,12 @@ function startPing(db,body) {
 process.on("message", function (body) {
 	co(function* (){
 	    if(body.sighup){
-	    	yield db.close();
 	    	console.log("--- end ping");
 	    	process.exit();
 	    }
 	    console.log("--- start ping");
-	    db = yield MongoClient.connect(url);
 	    setInterval(function() {
-		  startPing(db,body);
+		  startPing(body);
 		}, body.interval);
 	}).catch(function(err){
 		process.on('unhandledRejection', console.log(err));
