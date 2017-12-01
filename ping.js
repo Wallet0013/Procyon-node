@@ -8,8 +8,8 @@ const MongoClient = require("mongodb").MongoClient;
 const mongo_host = process.argv[2];
 const url = "mongodb://" + mongo_host + ":27017/procyon";
 
-const sourceInt = os.networkInterfaces().eth1[0].address;
-// const sourceInt = "tes";
+// const sourceInt = os.networkInterfaces().eth1[0].address;
+const sourceInt = "tes";
 
 
 function insertdb(value){
@@ -49,12 +49,8 @@ function startPing(body) {
 			    	alive : error ? false : true,
 			    	error: error ? error.toString() : null
 				};
-			    if (error){
-			        // console.log (target + ": " + error.toString ());
-			    }else{
-			    	// console.log(value);
-			    	insertdb(value);
-			    }
+		    	console.log(value);
+		    	insertdb(value);
 			});
 		}
 
