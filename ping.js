@@ -3,6 +3,7 @@ const moment 	= require('moment');
 const os 		= require('os');
 const net_ping 	= require('./lib/net-ping');
 const microtime = require('microtime')
+const BigNumber = require('bignumber.js');
 
 const MongoClient = require("mongodb").MongoClient;
 const mongo_host = process.argv[2];
@@ -44,7 +45,7 @@ function startPing(body) {
 				const value = {
 					source : sourceInt,
 					destnation:target,
-			    	timestamp:microtime.nowStruct(sent),
+			    	timestamp: new BigNumber(microtime.now(sent)).div(1000).round(0,1).toNumber(),
 			    	microsec:ms,
 			    	alive : error ? false : true,
 			    	error: error ? error.toString() : null

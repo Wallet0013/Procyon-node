@@ -4,6 +4,7 @@ const moment 		= require('moment');
 const os 			= require('os');
 const microtime 	= require('microtime')
 const MongoClient 	= require("mongodb").MongoClient;
+const BigNumber 	= require('bignumber.js');
 
 
 const mongo_host 	= process.argv[2];
@@ -44,7 +45,7 @@ function startTraceroute(body) {
 			const data = {
 				"source" : sourceInt,
 				"destnation" : destsArray[i],
-				"timestamp" : microtime.nowStruct(),
+				"timestamp" : new BigNumber(microtime.now()).div(1000).round(0,1).toNumber(),
 				"traceroute" : traceroute_result
 			};
 

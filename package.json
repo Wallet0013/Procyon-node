@@ -8,6 +8,7 @@
   "license": "MIT",
   "dependencies": {
     "axios": "^0.16.2",
+    "bignumber.js": "^5.0.0",
     "co": "^4.6.0",
     "microtime": "^2.1.6",
     "moment": "^2.18.1",
